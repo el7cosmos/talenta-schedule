@@ -1,0 +1,42 @@
+name: Attendance
+
+on:
+  schedule:
+    - cron: '0 18 * * 1-5'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  attendance:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - id: talenta-version
+        run: echo "::set-output name=version::$(curl -s https://raw.githubusercontent.com/rust-lang/crates.io-index/master/ta/le/talenta | tail -1 | jq -r '.vers')"
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ steps.talenta-version.outputs.version }}
+          restore-keys: ${{ runner.os }}-cargo
+
+      - run: cargo install talenta --target-dir target
+
+      - id: cache-config
+        uses: actions/cache@v2
+        with:
+          path: ~/.config/talenta
+          key: ${{ runner.os }}-config
+
+      - if: steps.cache-config.outputs.cache-hit != 'true'
+        run: talenta login --email "$EMAIL" --password "$PASSWORD"
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+
+      - run: talenta attendance --checkin-time 09:00 --checkout-time 18:00 -d wfh
