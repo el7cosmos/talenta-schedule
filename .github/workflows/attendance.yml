@@ -2,7 +2,7 @@ name: Attendance
 
 on:
   schedule:
-    - cron: '0 18 * * 1-5'
+    - cron: '0 12 * * 1-5'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-config
 
       - if: steps.cache-config.outputs.cache-hit != 'true'
-        run: talenta login --email "$EMAIL" --password "$PASSWORD"
+        run: talenta login
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
