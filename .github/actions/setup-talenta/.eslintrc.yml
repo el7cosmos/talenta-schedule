@@ -2,9 +2,9 @@ env:
   es2021: true
   node: true
 extends:
+  - plugin:@typescript-eslint/recommended
   - airbnb-base
   - plugin:github/recommended
-  - plugin:@typescript-eslint/recommended
   - prettier
 parser: '@typescript-eslint/parser'
 parserOptions:
@@ -13,4 +13,5 @@ parserOptions:
   project: "./tsconfig.json"
 plugins:
   - '@typescript-eslint'
-rules: {}
+rules:
+  import/no-namespace: 'off'
