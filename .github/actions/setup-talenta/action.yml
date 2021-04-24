@@ -1,0 +1,13 @@
+name: 'Setup Talenta'
+description: 'Setup talenta by downloading and adding it to the PATH'
+author: 'el7cosmos'
+inputs:
+  version:
+    required: false
+    description: 'Talenta version'
+  token:
+    required: false
+    description: 'Github token to fecth latest release if version omitted'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
