@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - id: cache-config
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.5
         with:
           path: ~/.config/talenta
           key: ${{ runner.os }}-config
