@@ -13,14 +13,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: cache-config
-        uses: actions/cache@v2
-        with:
-          path: ~/.config/talenta
-          key: ${{ runner.os }}-config
-
-      - if: steps.cache-config.outputs.cache-hit != 'true'
-        run: talenta login
+      - run: talenta login
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
